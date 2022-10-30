@@ -1,6 +1,5 @@
 // Начало программы
 
-#include <string>
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -16,6 +15,7 @@ int main() {
     cin >> count;
 
     int array[count]; // инициализация массива
+    int arrayDop[count]; // дополнительный массив для последующих сортировок
     int instructions[12] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}; // набор инструкций программы
     int min; // минимальное число
     int max; // максимальное число
@@ -28,6 +28,7 @@ int main() {
     auto end = steady_clock::now();
     auto result = duration_cast<nanoseconds>(end - start);
 
+    // Основа программы
     while (true){
         cout << "Введите номер элемента для выполнения: ";
         cin >> number;
@@ -38,13 +39,11 @@ int main() {
             break;
 
         number -= 1; // для индекса
-        
-        switch(instructions[number]){
 
+        switch(instructions[number]){
             // ЗАДАНИЕ 1
             case 12: 
-                // работа с промежутком времени
-                start = steady_clock::now();
+                start = steady_clock::now(); // работа с промежутком времени
 
                 // Алгоритм создания массива
                 for(int i = 0; i <=count-1; i++){
@@ -65,12 +64,41 @@ int main() {
 
             // ЗАДАНИЕ 2.1 (Bubble Sort)
             case 1:
-                break;
+                // Копирование массива
+                for(int i = 0; i < count; i++){
+                    arrayDop[i] = array[i];
+                }
 
+                // Сортировка
+                start = steady_clock::now(); // работа с промежутком времени
+
+                for(int j = 0; j < count-1; j++){
+                    for(int i = 0; i < count-1-j; i++){
+                        if(arrayDop[i] > arrayDop[i+1]){
+                            swap(arrayDop[i], arrayDop[i+1]);
+                        }
+                    }
+                }
+
+                // работа с промежутком времени
+                end = steady_clock::now();
+                result = duration_cast<nanoseconds>(end - start);
+
+                // Вывод отсортированного массива
+                for(int i = 0; i < count; i++){
+                    cout << arrayDop[i] << " ";
+                }
+                cout << endl;
+
+                cout << result.count() << " nanoseconds" << endl; // Вывод времени
+
+                break;
             // ЗАДАНИЕ 3 (максимальный и минимальный элементы массива)
             case 6:
-                min = 0;
-                max = 0;
+                min = array[0];
+                max = array[0];
+
+                start = steady_clock::now(); // работа с промежутком времени
 
                 for(int i = 0; i <= count-1; i++){
                     // Нахождение минимального элемента
@@ -84,11 +112,15 @@ int main() {
                         continue;
                     }
                 }
+                // работа с промежутком времени
+                end = steady_clock::now();
+                result = duration_cast<nanoseconds>(end - start);
+
                 // вывод минимального и максимального элемента
-                cout << "Минимальный элемент: " 
-                << min << ", максимальный элемент: " << max << endl;
-            
-            default:
+                cout << "Минимальный элемент: " << min << ", максимальный элемент: " << max << endl;
+
+                cout << result.count() << " nanoseconds" << endl; // Вывод времени
+
                 break;
         }
     }
