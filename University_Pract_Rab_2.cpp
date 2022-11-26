@@ -46,6 +46,7 @@ int main() {
                 for (int i = 0; i < count; i++) {
                     arrayDop[i] = array[i];
                 }
+
                 // Сортировка
                 start = high_resolution_clock::now(); // работа с промежутком времени
 
@@ -113,6 +114,100 @@ int main() {
                 break;
             }
 
+            // ЗАДАНИЕ 2.3 (Comb Sort)
+            case 3:{
+                float k = 1.247;// Коэффициент
+                float S = count - 1;
+
+                // Копирование массива
+                for (int i = 0; i < count; i++) {
+                    arrayDop[i] = array[i];
+                }
+
+                start = high_resolution_clock::now(); // работа с промежутком времени
+
+                while (S >= 1) {
+                    for (int i = 0; i + S < count; i++)
+                    {
+                        if (arrayDop[i] > arrayDop[int(i + S)])
+                        {
+                            swap(arrayDop[i], arrayDop[int(i+S)]);
+                        }
+                    }
+                    S /= k;
+                }
+
+                for (int j = 0; j < count - 1; j++) {
+                    for (int i = 0; i < count - 1 - j; i++) {
+                        if (arrayDop[i] > arrayDop[i + 1]) {
+                            swap(arrayDop[i], arrayDop[i + 1]);
+                        }
+                    }
+                }
+
+                // работа с промежутком времени
+                end = high_resolution_clock::now();
+                result = duration_cast<nanoseconds>(end - start);
+
+                // Вывод отсортированного массива
+                for (int i = 1; i <= count; i++) {
+                    cout << arrayDop[i - 1] << " ";
+                    if (i % 10 == 0)
+                        cout << endl;
+                }
+                cout << endl;
+
+                cout << "Было затрачено " << result.count() << " наносекунд" << endl; // Вывод времени
+
+                break;
+            }
+
+            // ЗАДАНИЕ 2.4 (Insert Sort)
+            case 4:{
+                // Копирование массива
+                for (int i = 0; i < count; i++) {
+                    arrayDop[i] = array[i];
+                }
+
+                int key; // для запоминания значения
+
+                start = high_resolution_clock::now(); // работа с промежутком времени
+
+                // Сортировка
+                for(int i = 1; i < count; i++){
+                    for(int j = 0; j < i; j++){
+                        if(arrayDop[i] < arrayDop[j]){
+                            key = arrayDop[i];
+                            for(int k = i; k > j; k--){
+                                arrayDop[k] = arrayDop[k-1];
+                            }
+                            arrayDop[j] = key;
+                        }
+                    }
+                }
+
+                // работа с промежутком времени
+                end = high_resolution_clock::now();
+                result = duration_cast<nanoseconds>(end - start);
+
+                // Вывод отсортированного массива
+                for (int i = 1; i <= count; i++) {
+                    cout << arrayDop[i - 1] << " ";
+                    if (i % 10 == 0)
+                        cout << endl;
+                }
+                cout << endl;
+
+                cout << "Было затрачено " << result.count() << " наносекунд" << endl; // Вывод времени
+
+                break;
+            }
+
+            // ЗАДАНИЕ 2.5 (Quick Sort)
+            case 5:{
+                break;
+            }
+
             // ЗАДАНИЕ 3 (максимальный и минимальный элементы массива)
             case 6:{
                 min = array[0];
@@ -140,6 +235,30 @@ int main() {
                 cout << "Минимальный элемент: " << min << ", максимальный элемент: " << max << endl;
 
                 cout << "Было затрачено " << result.count() << " наносекунд" << endl; // Вывод времени
+
+                break;
+            }
+
+            // ЗАДАНИЕ 4 (Среднее значение максимального и минимального элемента + поиск элементов с этим значением)
+            case 7: {
+                // Среднее значение
+                min = arrayDop[0];
+                max = arrayDop[count-1];
+                int sredn = (max+min)/2;
+                cout << "Среднее значение: " << sredn << "\n";
+
+                // Поиск перебором в неотсортированном массиве
+                cout << "Индексы элементов, равных среднему значению: ";
+                int k;
+                start = steady_clock::now();
+                for (int i = 0; i < count; i++) {
+                    if (array[i] == sredn) {
+                        cout << i << ", " << endl;
+                    }
+                }
+                end = steady_clock::now();
+                result = duration_cast<nanoseconds>(end - start);
+                cout << "Было затрачено " << result.count() << " наносекунд" << '\n' << endl;
 
                 break;
             }
